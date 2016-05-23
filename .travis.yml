@@ -23,7 +23,7 @@ install:
  
 branches:
   only:
-    - master
+    - travis
  
 script:
 - |
