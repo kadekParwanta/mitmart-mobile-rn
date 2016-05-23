@@ -9,7 +9,7 @@ env:
   global:
     - DIRECTORY_ANDROID=android
     - DIRECTORY_IOS=ios
-    - PROJECT_MOBILE=MITMART-MOBILE-RN
+    - PROJECT_MOBILE=MitMartRN
  
 cache:
   directories:
