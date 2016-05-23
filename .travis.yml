@@ -36,8 +36,13 @@ script:
  
   elif [ "$TEST_TYPE" = android-integration-test ]
   then
+    cat packager.log
+    cat packager.pid
+    npm install
+    (npm start > packager.log 2>&1 &)
+    echo $! > packager.pid
     cd $DIRECTORY_ANDROID
-    gradle test
+    ./gradlew clean build test
  
   elif [ "$TEST_TYPE" = ios-unit-test ]
   then
@@ -49,6 +54,8 @@ script:
   elif [ "$TEST_TYPE" = ios-integration-test ]
   then
     
+    cat packager.log
+    cat packager.pid
     npm install
     (npm start > packager.log 2>&1 &)
     echo $! > packager.pid
