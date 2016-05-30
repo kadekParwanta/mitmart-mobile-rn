@@ -33,4 +33,4 @@ branches:
  
 script:
 - cd $DIRECTORY_ANDROID 
-- ./gradlew build connectedCheck
+- gradle build connectedCheck
