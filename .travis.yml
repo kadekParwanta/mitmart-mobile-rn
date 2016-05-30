@@ -38,8 +38,7 @@ script:
   then
   
     npm install
-    (npm start > packager.log 2>&1 &)
-    echo $! > packager.pid
+    npm start
     cd $DIRECTORY_ANDROID
     ./gradlew build connectedCheck
  
@@ -52,12 +51,9 @@ script:
  
   elif [ "$TEST_TYPE" = ios-integration-test ]
   then
-    
-    cat packager.log
-    cat packager.pid
+
     npm install
-    (npm start > packager.log 2>&1 &)
-    echo $! > packager.pid
+    npm start
     
     cd $DIRECTORY_IOS
     
