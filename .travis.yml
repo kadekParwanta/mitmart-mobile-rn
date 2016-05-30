@@ -20,6 +20,7 @@ env:
      - DIRECTORY_ANDROID=android
      - DIRECTORY_IOS=ios
      - PROJECT_MOBILE=MitMartRN
+     
 cache:
   directories:
   - node_modules
@@ -32,5 +33,6 @@ branches:
     - travis
  
 script:
-- cd $DIRECTORY_ANDROID 
-- gradle build connectedCheck
+- | 
+    cd $DIRECTORY_ANDROID 
+    gradle build connectedCheck
