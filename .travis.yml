@@ -40,7 +40,7 @@ script:
     npm install
     npm start
     cd $DIRECTORY_ANDROID
-    ./gradlew build connectedCheck
+    ./gradlew
  
   elif [ "$TEST_TYPE" = ios-unit-test ]
   then
@@ -59,8 +59,8 @@ script:
     
     xctool \
       -project $PROJECT_MOBILE.xcodeproj \
-      -scheme $PROJECT_MOBILE -sdk iphonesimulator8.1
-      test
+      -scheme $PROJECT_MOBILE
+      build
  
     pkill -9 -F packager.pid
     cat packager.log
