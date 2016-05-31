@@ -1,38 +1,63 @@
-language: android
-android:
-  components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    # - platform-tools
-    # - tools
-
-    # The BuildTools version used by your project
-    - build-tools-23.0.1
-
-    # The SDK version used to compile your project
-    - android-19
-
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    - sys-img-armeabi-v7a-android-19
+language: objective-c
+ 
 env:
-   global:
-     - DIRECTORY_ANDROID=android
-     - DIRECTORY_IOS=ios
-     - PROJECT_MOBILE=MitMartRN
-     
+  matrix:
+    - TEST_TYPE=unit-test
+    - TEST_TYPE=ios-integration-test
+    - TEST_TYPE=android-integration-test
+  global:
+    - DIRECTORY_ANDROID=android
+    - DIRECTORY_IOS=ios
+    - PROJECT_MOBILE=MitMartRN
+ 
 cache:
   directories:
   - node_modules
  
 before_install:
-  - npm install
+  - brew update
+ 
+install:
+  - brew reinstall gradle flow watchman xctool
  
 branches:
   only:
     - travis
  
 script:
-- | 
-    cd $DIRECTORY_ANDROID 
+- |
+  if [ "$TEST_TYPE" = unit-test ]
+  then
+ 
+    npm install
+    flow check
+    npm test
+ 
+  elif [ "$TEST_TYPE" = android-integration-test ]
+  then
+  
+    npm install
+    npm start
+    cd $DIRECTORY_ANDROID
     ./gradlew
+
+  elif [ "$TEST_TYPE" = ios-integration-test ]
+  then
+    npm install
+    npm start
+    
+    cd $DIRECTORY_IOS
+    
+    xctool \
+      -project $PROJECT_MOBILE.xcodeproj \
+      -scheme $PROJECT_MOBILE -sdk iphonesimulator8.1
+      build
+ 
+    pkill -9 -F packager.pid
+    cat packager.log
+    rm packager.log packager.pid
+ 
+  else
+    echo "Unknown test type: $TEST_TYPE"
+    exit 1
+  fi
